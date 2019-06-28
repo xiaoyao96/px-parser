@@ -36,7 +36,7 @@ div{
 | -i INPUT, --input INPUT | 需要转换的文件路径，如a.css， `-i a.css` 或 `--input a.css` |
 | -o OUTPUT, --output OUTPUT | 准备输出的文件路径，不传则覆盖原文件。 |
 | -x X | 指定倍数转换像素值，默认值为2 |
-| -r R, --rule R | 指定转换单位，默认为px转为px，如需要px转rem: `-r px:rem` 或者 `--rule px:rem` |
+| -r R, --rule R | 指定转换单位，默认为px转为px，目前仅支持 px、rem、rpx。规则为: `-r 单位:单位`|
 | -h, --help | 参数说明 |
 | -v, --version | 当前px-parser版本 |
 
