@@ -4,7 +4,7 @@
   const fs = require("fs");
   const confirm = require("confirm-cli");
   const ArgumentParser = require("argparse").ArgumentParser;
-  const unitsConfig = ["px", "px", "rem", "rem", "rpx"];
+  const unitsConfig = ["px", "px", "rem", "rem", "rpx", "rpx"];
   console.log(Array.from(new Set(queue(unitsConfig, 2).map(item => item.join(":")))))
   const parser = new ArgumentParser({
     version: "1.0.0",
@@ -47,24 +47,25 @@
     let resultName = query.output || query.input;
     if (resultName === query.input) {
       confirm(
-        "是否覆盖原文件？",
+        "即将覆盖原文件，是否需要备份？",
         function() {
           // yes
           fs.writeFileSync(resultName, result);
           console.log(`已覆盖 ${resultName} 文件`);
-        },
-        function() {
-          //no
-          fs.writeFileSync(resultName, result);
-          console.log(`已写入 ${resultName} 文件`);
           let arr = query.input.split(".");
           let fileName = arr.splice(0, arr.length - 1).join(".");
           let type = arr[arr.length - 1];
+          let backFileName = type ? (fileName + "-" + Math.random() + "." + type) : (fileName + "-" + Math.random());
           fs.writeFileSync(
             fileName + "-" + Math.random() + "." + type,
             inputStr
           );
-          console.log(`原文件已备份到 ${resultName} 中`);
+          console.log(`原文件已备份到 ${backFileName} 中`);
+        },
+        function() {
+          //no
+          fs.writeFileSync(resultName, result);
+          console.log(`已覆盖 ${resultName} 文件`);
         },
         {
           text: ["是", "否"]

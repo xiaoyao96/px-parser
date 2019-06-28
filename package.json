@@ -1,6 +1,6 @@
 {
   "name": "px-parser",
-  "version": "1.0.1",
+  "version": "1.0.32",
   "description": "转换css像素值，并生成新的文件",
   "main": "./index.js",
   "bin": {
@@ -11,5 +11,9 @@
   "dependencies": {
     "argparse": "^1.0.10",
     "confirm-cli": "^0.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yx675258207/px-parser.git"
   }
 }
