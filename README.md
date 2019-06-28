@@ -15,7 +15,7 @@ pxp -i index.css -x 0.01 -r px:rem
 或者
 pxp -i=index.css -x=0.01 -r=px:rem
 ```
-然后按照提示进行选择。效果如下：
+然后按照提示进行选择。效果如下：  
 index.css 转换前:
 ``` css
 div{
