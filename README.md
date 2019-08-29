@@ -1,7 +1,7 @@
 # px-parser
 [![NPM version](https://img.shields.io/npm/v/px-parser.svg)](https://www.npmjs.com/package/px-parser)
 
-用于将文件里的css单位，按照指定比例和单位转换。
+用于将文件里的css单位，按照指定比例和单位转换。输出新的文件。
 目前仅支持 px、rem、rpx
 
 ## 安装及使用
