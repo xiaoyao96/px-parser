@@ -5,7 +5,6 @@
   const inquirer = require("inquirer");
   const chalk = require("chalk")
   const logSymbols = require("log-symbols");
-
   const ArgumentParser = require("argparse").ArgumentParser;
   const unitsConfig = ["px", "px", "rem", "rem", "rpx", "rpx"];
   const parser = new ArgumentParser({
@@ -15,9 +14,6 @@
   });
   parser.addArgument(["-i", "--input"], {
     help: "要转换的文件路径"
-  });
-  parser.addArgument(["-o", "--output"], {
-    help: "输出的文件路径，不传则覆盖原文件"
   });
   parser.addArgument("-x", {
     help: "指定倍数转换像素值",
@@ -53,8 +49,8 @@
     ]
     inquirer.prompt(promptList).then(answer => {
       if(answer.goOn){
-        DirHandler(query.input, function(path) {
-          let inputStr = fs.readFileSync(path);
+        DirHandler(query.input, function(filePath) {
+          let inputStr = fs.readFileSync(filePath);
           let units = query.rule.split(":");
           let result = inputStr
             .toString()
@@ -68,21 +64,21 @@
             );
           // yes
           if(result !== inputStr.toString()){
-            fs.writeFileSync(path, result);
+            fs.writeFileSync(filePath, result);
           }
         })
       }
     })
   }
-  function DirHandler(path = "./", handler) {
-    if (fs.lstatSync(path).isDirectory()) {
-      let folder = path[path.length - 1] === '/' ? path : path + '/'
+  function DirHandler(filePath = "./", handler) {
+    if (fs.lstatSync(filePath).isDirectory()) {
+      let folder = filePath[filePath.length - 1] === '/' ? filePath : filePath + '/'
       let result = fs.readdirSync(folder);
       result.forEach(item => {
         DirHandler(folder + item, handler);
       });
     } else {
-      if(/\.(css|less|scss|sass|wxss|stylus|ux|vue|js|jsx|ts|tsx|wxml|html|php)$/.test(path)) typeof handler === "function" && handler(path);
+      if(/\.(css|less|scss|sass|wxss|stylus|ux|vue|js|jsx|ts|tsx|wxml|html|php)$/.test(filePath)) typeof handler === "function" && handler(filePath);
     }
   }
   function queue(arr, size) {
