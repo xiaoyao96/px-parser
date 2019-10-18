@@ -1,6 +1,6 @@
 {
   "name": "px-parser",
-  "version": "1.0.32",
+  "version": "1.0.4",
   "description": "转换css像素值，并生成新的文件",
   "main": "./index.js",
   "bin": {

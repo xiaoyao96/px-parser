@@ -5,7 +5,9 @@
   const confirm = require("confirm-cli");
   const ArgumentParser = require("argparse").ArgumentParser;
   const unitsConfig = ["px", "px", "rem", "rem", "rpx", "rpx"];
-  console.log(Array.from(new Set(queue(unitsConfig, 2).map(item => item.join(":")))))
+  console.log(
+    Array.from(new Set(queue(unitsConfig, 2).map(item => item.join(":"))))
+  );
   const parser = new ArgumentParser({
     version: "1.0.0",
     addHelp: true,
@@ -25,7 +27,9 @@
   parser.addArgument(["-r", "--rule"], {
     help: "指定转换单位，默认为 px:px，px转为px",
     defaultValue: "px:px",
-    choices: Array.from(new Set(queue(unitsConfig, 2).map(item => item.join(":"))))
+    choices: Array.from(
+      new Set(queue(unitsConfig, 2).map(item => item.join(":")))
+    )
   });
   const args = parser.parseArgs();
 
@@ -35,42 +39,72 @@
     console.log("\033[31mError: input参数不能为空！请运行-h查看帮助。\033[0m ");
   }
   function main(query) {
-    console.log(`正在读取 ${query.input} 文件...`);
-    let inputStr = fs.readFileSync(query.input);
-    let units = query.rule.split(":");
-    let result = inputStr
-      .toString()
-      .replace(new RegExp(`[ |:](\\d+(\\.\\d+)?)(${units[0]})`, "g"), function(s, v, p ,u) {
-        console.log(s, v, p, u)
-        return s.replace(v, v * query.x).replace(u, units[1]);
-      });
-    let resultName = query.output || query.input;
-    if (resultName === query.input) {
-      confirm(
-        "即将覆盖原文件，是否需要备份？",
-        function() {
+    console.log(`正在读取 ${query.input}...`);
+    confirm(
+      "即将覆盖原文件，是否继续？",
+      function() {
+        DirHandler(query.input, function(path) {
+          let inputStr = fs.readFileSync(path);
+          let units = query.rule.split(":");
+          let result = inputStr
+            .toString()
+            .replace(
+              new RegExp(`[ |:|\(]-?(\\d+(\\.\\d+)?)(${units[0]})`, "g"),
+              function(s, v, p, u) {
+                return s
+                  .replace(v, (v === "1" && query.x < 1) ? v : v * query.x)
+                  .replace(u, units[1]);
+              }
+            );
           // yes
-          fs.writeFileSync(resultName, result);
-          console.log(`已覆盖 ${resultName} 文件`);
-          let arr = query.input.split(".");
-          let fileName = arr.splice(0, arr.length - 1).join(".");
-          let type = arr[arr.length - 1];
-          let backFileName = type ? (fileName + "-" + Math.random() + "." + type) : (fileName + "-" + Math.random());
-          fs.writeFileSync(
-            fileName + "-" + Math.random() + "." + type,
-            inputStr
-          );
-          console.log(`原文件已备份到 ${backFileName} 中`);
-        },
-        function() {
-          //no
-          fs.writeFileSync(resultName, result);
-          console.log(`已覆盖 ${resultName} 文件`);
-        },
-        {
-          text: ["是", "否"]
-        }
-      );
+          fs.writeFileSync(path, result);
+        })
+        // DirHandler(query.input, function(path) {
+        //   let inputStr = fs.readFileSync(path);
+        //   let units = query.rule.split(":");
+        //   let result = inputStr
+        //     .toString()
+        //     .replace(
+        //       new RegExp(`[ |:|\(]-?(\\d+(\\.\\d+)?)(${units[0]})`, "g"),
+        //       function(s, v, p, u) {
+        //         return s
+        //           .replace(v, (v === "1" && query.x < 1) ? v : v * query.x)
+        //           .replace(u, units[1]);
+        //       }
+        //     );
+        //   // yes
+        //   fs.writeFileSync(path, result);
+        //   console.log(`已覆盖 ${path} 文件`);
+        //   let arr = path.split(".");
+        //   let fileName = arr.splice(0, arr.length - 1).join(".");
+        //   let type = arr[arr.length - 1];
+        //   let backFileName = type
+        //     ? fileName + "-" + Math.random() + "." + type
+        //     : fileName + "-" + Math.random();
+        //   fs.writeFileSync(
+        //     fileName + "-" + Math.random() + "." + type,
+        //     inputStr
+        //   );
+        //   console.log(`原文件已备份到 ${backFileName} 中`);
+        // });
+      },
+      function() {
+        
+      },
+      {
+        text: ["是", "否"]
+      }
+    );
+  }
+  function DirHandler(path = "./", handler) {
+    if (fs.lstatSync(path).isDirectory()) {
+      let folder = path[path.length - 1] === '/' ? path : path + '/'
+      let result = fs.readdirSync(folder);
+      result.forEach(item => {
+        DirHandler(folder + item, handler);
+      });
+    } else {
+      if(/\.(ux|css|less|scss|vue|js|jsx|ts|wxml|html)$/.test(path)) typeof handler === "function" && handler(path);
     }
   }
   function queue(arr, size) {
@@ -86,7 +120,7 @@
         for (var i = 0, len = arr.length; i < len; i++) {
           var newArr = [].concat(arr),
             curItem = newArr.splice(i, 1);
-            f(newArr, size, [].concat(result, curItem));
+          f(newArr, size, [].concat(result, curItem));
         }
       }
     })(arr, size, []);

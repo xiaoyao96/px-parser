@@ -1,6 +1,7 @@
 # px-parser
+[![NPM version](https://img.shields.io/npm/v/px-parser.svg)](https://www.npmjs.com/package/px-parser)
 
-用于将文件里的css单位，按照指定比例和单位转换。
+用于将文件里的css单位，按照指定比例和单位转换。输出新的文件。
 目前仅支持 px、rem、rpx
 
 ## 安装及使用
@@ -33,7 +34,7 @@ div{
 ## 参数列表
 | 指令 | 说明 |
 | ---- | ---- |
-| -i INPUT, --input INPUT | 需要转换的文件`相对路径`，如a.css， `-i a.css` 或 `--input a.css` |
+| -i INPUT, --input INPUT | 需要转换的文件`相对路径`，支持文件夹批量操作，如a.css或a文件夹， `-i a.css` 或 `--input a.css` 或 `-i a` |
 | -o OUTPUT, --output OUTPUT | 准备输出的文件`相对路径`，不传则覆盖原文件。 |
 | -x X | 指定倍数转换像素值，默认值为2 |
 | -r R, --rule R | 指定转换单位，默认为px转为px，目前仅支持 px、rem、rpx。规则为: `-r 单位:单位`|
