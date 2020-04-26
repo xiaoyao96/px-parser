@@ -55,6 +55,7 @@ describe("converter的测试用例 - 其他综合", () => {
   })
   it('指定属性font-size', () => {
     expect(converter(`.div{transform:translate(12px,12px)};font-size: 12px`, 0.01, 'px:rem', 'font-size')).to.equals(`.div{transform:translate(12px,12px)};font-size: 0.12rem`)
+    expect(converter(`.div{transform:translate(12px,12px)};font-size:12px`, 0.01, 'px:rem', 'font-size')).to.equals(`.div{transform:translate(12px,12px)};font-size:0.12rem`)
   })
   
   it('test', () => {

@@ -7,7 +7,7 @@
  */
 function converter(inputStr = "", x = 1, rule = "px:px", prop = "*") {
   let units = rule.split(":");
-  const exp = `[ +|:|\\(|,|\\*|/|\\+|-]-?((\\d+)?(\\.\\d+)?)(${units[0]})`;
+  const exp = `[ +|:|\\(|,|\\*|/|\\+|-]?-?((\\d+)?(\\.\\d+)?)(${units[0]})`;
   let result = "";
   if (prop !== "*") {
     let expWithProp =
