@@ -7,6 +7,7 @@
   const logSymbols = require("log-symbols");
   const ArgumentParser = require("argparse").ArgumentParser;
   const unitsConfig = ["px", "px", "rem", "rem", "rpx", "rpx"];
+  const converter = require('./converter');
   const parser = new ArgumentParser({
     version: "1.0.0",
     addHelp: true,
@@ -18,7 +19,7 @@
   parser.addArgument("-x", {
     help: "指定倍数转换像素值",
     type: "float",
-    defaultValue: 2
+    defaultValue: 1
   });
   parser.addArgument(["-p", "--prop"], {
     help: "指定转换属性",
@@ -56,30 +57,7 @@
       if (answer.goOn) {
         DirHandler(query.input, function(filePath) {
           let inputStr = fs.readFileSync(filePath);
-          let units = query.rule.split(":");
-          let exp = `[ |:|\(]-?((\\d+)?(\\.\\d+)?)(${units[0]})`;
-          let result = "";
-          if (query.prop !== "*") {
-            exp =
-              "(" +
-              query.prop
-                .split(",")
-                .map(item => item + ":")
-                .join("|") +
-              `)[ |\\(|:]-?((\\d+)?(\\.\\d+)?)(${units[0]})`;
-            result = inputStr
-              .toString()
-              .replace(new RegExp(exp, "g"), function(f, s, v, p, u) {
-                return f.replace(v, v * query.x).replace(u, units[1]);
-              });
-          } else {
-            result = inputStr
-              .toString()
-              .replace(new RegExp(exp, "g"), function(s, v) {
-                return s.replace(v, v * query.x).replace(units[0], units[1]);
-              });
-          }
-
+          const result = converter(inputStr, query.x, query.rule, query.prop)
           // yes
           if (result !== inputStr.toString()) {
             fs.writeFileSync(filePath, result);
