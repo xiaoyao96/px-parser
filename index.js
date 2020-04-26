@@ -75,8 +75,8 @@
           } else {
             result = inputStr
               .toString()
-              .replace(new RegExp(exp, "g"), function(s, v, p, u) {
-                return s.replace(v, v * query.x).replace(u, units[1]);
+              .replace(new RegExp(exp, "g"), function(s, v) {
+                return s.replace(v, v * query.x).replace(units[0], units[1]);
               });
           }
 
