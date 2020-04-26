@@ -1,20 +1,20 @@
 {
   "name": "px-parser",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "转换css像素值，并生成新的文件",
   "main": "./src/index.js",
   "bin": {
     "pxp": "./src/index.js"
   },
   "files": [
-    "index.js",
-    "README.md"
+    "src"
   ],
+  "readme": "./README.md",
   "scripts": {
     "test": "mocha ./test/converter.test.js"
   },
   "author": "Leisure",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "argparse": "^1.0.10",
     "chalk": "^2.4.2",
