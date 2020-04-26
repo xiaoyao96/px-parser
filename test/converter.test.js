@@ -46,12 +46,14 @@ describe("converter的测试用例 - 其他综合", () => {
     expect(converter(`*{font-size:20px;width:100px}`, 1, 'px:rpx')).to.equals(`*{font-size:20rpx;width:100rpx}`)
     expect(converter(`*{font-size:20px;width:100px}`, 0.01, 'px:rem')).to.equals(`*{font-size:0.2rem;width:1rem}`)
     expect(converter(`*{font-size:20px;width:100px}\na{font-size:12px;}`, 0.01, 'px:rem')).to.equals(`*{font-size:0.2rem;width:1rem}\na{font-size:0.12rem;}`)
+    expect(converter(`*{font-size:   20px;width: 100px}\na{font-size:12px;}`, 0.01, 'px:rem')).to.equals(`*{font-size:   0.2rem;width: 1rem}\na{font-size:0.12rem;}`)
   })
   it('特殊属性', () => {
     expect(converter(`.div{transform:translate(12px,12px)}`, 0.01, 'px:rem')).to.equals(`.div{transform:translate(0.12rem,0.12rem)}`)
     expect(converter(`.div{transform:translate(12px, -12px)}`, 0.01, 'px:rem')).to.equals(`.div{transform:translate(0.12rem, -0.12rem)}`)
     expect(converter(`.div{transform:translate( 12px, -12px)}`, 0.01, 'px:rem')).to.equals(`.div{transform:translate( 0.12rem, -0.12rem)}`)
     expect(converter(`.div{transform:translate( 12px,-12px)}`, 0.01, 'px:rem')).to.equals(`.div{transform:translate( 0.12rem,-0.12rem)}`)
+    expect(converter(`.div{transform:translate(  12px,  -12px)}`, 0.01, 'px:rem')).to.equals(`.div{transform:translate(  0.12rem,  -0.12rem)}`)
   })
   it('指定属性font-size', () => {
     expect(converter(`.div{transform:translate(12px,12px)};font-size: 12px`, 0.01, 'px:rem', 'font-size')).to.equals(`.div{transform:translate(12px,12px)};font-size: 0.12rem`)
