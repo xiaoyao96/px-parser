@@ -2,8 +2,8 @@
 [![NPM version](https://img.shields.io/npm/v/px-parser.svg)](https://www.npmjs.com/package/px-parser)
 
 用于将文件夹或文件里的css单位，按照指定比例和单位转换，并输出新的文件。
--支持 px、rem、rpx单位。 
--单个文件或者单目录批量转换。 
+- 支持 px、rem、rpx单位。 
+- 单个文件或者单目录批量转换。 
 
 ## 使用情景
 某程序猿：上次做的那个h5里的`css文件`好像这次小程序也能用，但是单位是px，我想转成rpx，而且之前是375写的...要是有个命令行能一键转化`数字`和`单位`就好了...  
