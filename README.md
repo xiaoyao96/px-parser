@@ -65,5 +65,6 @@ pxp -i=a.css -x=0.75 -r=px:px -p=font-size,margin
 建议转换前git提交代码或备份，以免误转换或写错参数。  
 如有bug请提issues
 
-
+## License
+MIT © [Leisure](https://github.com/xiaoyao96)
 
